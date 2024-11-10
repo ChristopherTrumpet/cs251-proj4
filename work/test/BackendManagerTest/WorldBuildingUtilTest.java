@@ -24,7 +24,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
  * @author Ethan Dickey
  */
 public class WorldBuildingUtilTest {
-    final static String prefix = System.getenv("ASNLIB") + "/test/BackendManagerTest/connectingCitiesFiles";
+    final static String prefix = "/home/ct/Downloads/Project4/work/test/BackendManagerTest/connectingCitiesFiles/";
     final static File[] folderPaths = {new File(prefix + "sample"),
             new File(prefix + "manual"),
             new File(prefix + "generated")

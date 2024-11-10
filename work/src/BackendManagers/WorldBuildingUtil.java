@@ -20,7 +20,11 @@ import java.util.List;
 public class WorldBuildingUtil implements WorldBuildingUtilInterface {
 
     public double getEuclidDist(iPair p, iPair q) {
-        return Math.sqrt(Math.pow(p.a - p.b, 2)) + Math.pow(p.a-p.b, 2);
+        double x = p.a - q.a;
+        double y = p.b - q.b;
+        double result = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+
+        return result;
     }
 
     /**
@@ -52,7 +56,15 @@ public class WorldBuildingUtil implements WorldBuildingUtilInterface {
                 }
             }
 
-            MST.denseMST(weights);
+            List<iPair> mst = MST.denseMST(weights);
+            List<CityEdge> cityEdges = new ArrayList<>();
+            for (int i = 0; i < mst.size() - 1; i++) {
+                for (int j = i + 1; j < mst.size(); j++) {
+                    cityEdges.add(new CityEdge(mst.get(i), mst.get(j)));
+                }
+            }
+
+            return cityEdges;
 
         } catch (IOException e) {
             //This should never happen... uh oh o.o

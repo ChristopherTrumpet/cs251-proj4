@@ -14,6 +14,22 @@ import java.util.List;
  */
 public class MST {
 
+    // track visited nodes
+    static boolean[] visited;
+
+    static MinHeap<Edge> heap;
+
+    static void addEdges(int nodeIndex, double[][] weights) {
+        visited[nodeIndex] = true;
+
+        int edges = weights[nodeIndex].length;
+        for (int i = 0; i < edges; i++) {
+            if (!visited[i]) {
+                heap.add(new Edge(nodeIndex, i, weights[nodeIndex][i]));
+            }
+        }
+    }
+
     /**
      * Returns the MST of the given graph, optimized for a dense graph.  Assumes a connected graph.
      *
@@ -27,11 +43,12 @@ public class MST {
 
         int m = n - 1;
         int edgeCount = 0;
+        heap = new MinHeap<>();
 
         List<iPair> mstEdges = new ArrayList<>();
 
         // track visited nodes
-        boolean[] visited = new boolean[n];
+        visited = new boolean[n];
 
         for(int i=0; i<n; i++){
             if(weights[i].length != n)
@@ -44,15 +61,9 @@ public class MST {
             }
         }
 
-        MinHeap<Edge> heap = new MinHeap<>();
 
-        visited[0] = true;
 
-        for (int i = 0; i < weights[0].length; i++) {
-            if (!visited[i]) {
-                heap.add(new Edge(0, i, weights[0][i]));
-            }
-        }
+        addEdges(0, weights);
 
         while (heap.size() > 0 && edgeCount != m) {
             Edge edge = heap.removeMin();
@@ -63,11 +74,7 @@ public class MST {
             mstEdges.add(new iPair(edge.a, edge.b));
             edgeCount++;
 
-            for (int i = 0; i < weights[nodeIndex].length; i++) {
-                if (!visited[i]) {
-                    heap.add(new Edge(nodeIndex, i, weights[nodeIndex][i]));
-                }
-            }
+            addEdges(nodeIndex, weights);
         }
 
         return (edgeCount != m) ? null : mstEdges;
