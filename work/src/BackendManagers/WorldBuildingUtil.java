@@ -19,12 +19,18 @@ import java.util.List;
  */
 public class WorldBuildingUtil implements WorldBuildingUtilInterface {
 
+    /**
+     * Uses equation provided by the wiki: https://en.wikipedia.org/wiki/Euclidean_distance
+     * @param p Coordinates of City X
+     * @param q Coordinates of City Y
+     * @return Distance between both cities
+     */
     public double getEuclidDist(iPair p, iPair q) {
+        // This is used to create the "weight" between each city
         double x = p.a - q.a;
         double y = p.b - q.b;
-        double result = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
-        return result;
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
     /**

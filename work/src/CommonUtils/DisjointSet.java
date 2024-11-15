@@ -14,7 +14,7 @@ public class DisjointSet implements DisjointSetInterface {
 
     private final int[] parent;
     private final int[] size;
-    private int total;
+    private final int total;
 
     /**
      * Initializes a disjoint set of size n
@@ -22,6 +22,11 @@ public class DisjointSet implements DisjointSetInterface {
      * @throws IllegalArgumentException if passed an invalid size (<0)
      */
     public DisjointSet(int n) throws IllegalArgumentException {
+
+        if (n < 0) {
+            throw new IllegalArgumentException("Negative size >:(");
+        }
+
         parent = new int[n];
         size = new int[n];
         total = n;
@@ -44,6 +49,9 @@ public class DisjointSet implements DisjointSetInterface {
      */
     @Override
     public int find(int x) throws IndexOutOfBoundsException {
+        if (x < 0 || x >= total) {
+            throw new IndexOutOfBoundsException("Index out of bounds: " + x);
+        }
 
         if (parent[x] != x) {
             parent[x] = find(parent[x]);
@@ -63,22 +71,24 @@ public class DisjointSet implements DisjointSetInterface {
      */
     @Override
     public void union(int x, int y) throws IndexOutOfBoundsException {
-        //todo
-        int p1 = find(x);
-        int p2 = find(y);
 
-        if (p1 == p2) return; // both are already in same set
-
-        if (size[p1] < size[p2]) {
-            parent[p1] = p2;
-            size[p2] += size[p1];
-            total += size[p2];
-            return;
+        if (x < 0 || x >= total || y < 0 || y >= total) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
         }
 
-        parent[p2] = p1;
-        size[p1] += size[p2];
-        total += size[p1];
+        //todo
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX == rootY) return; // both are already in same set
+
+        if (size[rootX] <= size[rootY]) {
+            parent[rootX] = rootY;
+            size[rootY] += size[rootX];
+        } else {
+            parent[rootY] = rootX;
+            size[rootX] += size[rootY];
+        }
     }
 
     /**
@@ -90,7 +100,10 @@ public class DisjointSet implements DisjointSetInterface {
      */
     @Override
     public int getSetSize(int x) throws IndexOutOfBoundsException {
-        //todo
+        if (x < 0 || x >= total) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+
         return size[find(x)];
     }
 
@@ -101,7 +114,6 @@ public class DisjointSet implements DisjointSetInterface {
      */
     @Override
     public int getDSSize() {
-        //todo
         return total;
     }
 
