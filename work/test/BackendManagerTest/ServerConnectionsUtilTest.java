@@ -27,7 +27,7 @@ import static java.lang.System.out;
  * @author Ethan Dickey
  */
 public class ServerConnectionsUtilTest {
-    final static String prefix = System.getenv("ASNLIB") + "/test/BackendManagerTest/ServerConnectionsFiles/";
+    final static String prefix = "/home/ct/Downloads/Project4/work/test/BackendManagerTest/serverConnectionsFiles/";
     final static File[] folderPaths = {new File(prefix + "sample"),
             new File(prefix + "manual"),
             new File(prefix + "generated"),

@@ -71,6 +71,7 @@ public class MST {
 
             if (visited[nodeIndex]) continue;
 
+            // Path between city X and city Y
             mstEdges.add(new iPair(edge.a, edge.b));
             edgeCount++;
 

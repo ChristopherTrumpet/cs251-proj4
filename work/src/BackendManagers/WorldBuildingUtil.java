@@ -46,28 +46,37 @@ public class WorldBuildingUtil implements WorldBuildingUtilInterface {
 
             int n = Integer.parseInt(bf.readLine());
             double[][] weights = new double[n][n];
-            List<iPair> cityCoords = new ArrayList<>();
+            List<iPair> cities = new ArrayList<>();
 
+            // Read and store x,y coordinates of each city
             for (int i = 0; i < n; i++) {
                 String[] line = bf.readLine().split(" ");
                 int xCoord = Integer.parseInt(line[0]);
                 int yCoord = Integer.parseInt(line[1]);
 
-                cityCoords.add(new iPair(xCoord, yCoord));
+                cities.add(new iPair(xCoord, yCoord));
             }
 
+            // Calculate the distance between each city
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    weights[i][j] = getEuclidDist(cityCoords.get(i), cityCoords.get(j));
+                    weights[i][j] = getEuclidDist(cities.get(i), cities.get(j));
                 }
             }
 
+            // Find the shortest path to each city
             List<iPair> mst = MST.denseMST(weights);
             List<CityEdge> cityEdges = new ArrayList<>();
-            for (int i = 0; i < mst.size() - 1; i++) {
-                for (int j = i + 1; j < mst.size(); j++) {
-                    cityEdges.add(new CityEdge(mst.get(i), mst.get(j)));
-                }
+
+            if (mst == null) {
+                // Shortest path could not be found.
+                return null;
+            }
+
+            for (iPair cityPair : mst) {
+                iPair cityX = cities.get(cityPair.a);
+                iPair cityY = cities.get(cityPair.b);
+                cityEdges.add(new CityEdge(cityX, cityY));
             }
 
             return cityEdges;
